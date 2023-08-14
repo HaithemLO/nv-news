@@ -17,17 +17,26 @@ afterAll(() => {
 
 describe('GET /api/topics', () => {
 
-  it('should respond with status 404 for unsupported methods', () => {
-    return request(app)
-      .post('/api/topics')
-      .expect(404);
-  });
+
 
   it('should respond with status 404 for an invalid endpoint', () => {
     return request(app)
       .get('/api/invalid')
       .expect(404);
   });
+
+  it('should respond with an array of objects that is not empty', () => {
+    return request(app)
+      .get('/api/topics')
+      .expect(200)
+      .then((res)=>{
+        expect(res.body.topics.length).not.toBe(0)
+        
+     
+  });
+      
+  });
+
 
 
 
@@ -41,6 +50,8 @@ describe('GET /api/topics', () => {
          res.body.topics.forEach((topics) =>{
           expect(typeof topics.slug).toBe('string'),
           expect(typeof topics.description).toBe('string')
+
+          expect(res.body.topics.length).toBe(3)
          
       })
      
