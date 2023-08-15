@@ -90,3 +90,46 @@ describe('GET /api', () => {
 });
 
 
+describe('GET /api/articles/:article_id', () => {
+ 
+  
+
+  it('should respond with an article object', () => {
+    const article_id = 1; // Use a valid article_id
+    return request(app)
+      .get(`/api/articles/${article_id}`)
+      .expect(200)
+      .then((res) => {
+        const article = res.body.article;
+        expect(article).toBeTruthy();
+        expect(article).toHaveProperty('author');
+        expect(article).toHaveProperty('title');
+        expect(article).toHaveProperty('article_id');
+        expect(article).toHaveProperty('body');
+        expect(article).toHaveProperty('topic');
+        expect(article).toHaveProperty('created_at');
+        expect(article).toHaveProperty('votes');
+        expect(article).toHaveProperty('article_img_url');
+      });
+  });
+
+  it('should respond with an article object with correct data types', () => {
+    const article_id = 1; // Use a valid article_id
+    return request(app)
+      .get(`/api/articles/${article_id}`)
+      .expect(200)
+      .then((res) => {
+        const article = res.body.article;
+        expect(typeof article.author).toBe('string');
+        expect(typeof article.title).toBe('string');
+        expect(typeof article.article_id).toBe('number');
+        expect(typeof article.body).toBe('string');
+        expect(typeof article.topic).toBe('string');
+        expect(typeof article.created_at).toBe('string'); // Assuming it's a string timestamp
+        expect(typeof article.votes).toBe('number');
+        expect(typeof article.article_img_url).toBe('string');
+      });
+  });
+
+
+});
