@@ -67,20 +67,9 @@ describe('GET /api', () => {
   it('should respond with status 200 and list all available endpoints', () => {
     return request(app)
       .get('/api')
+      .expect(200)
       .then((response) => {
-        expect(response.status).toBe(200);
-
-        const expectedEndpoints = [
-          'GET /api',
-          'GET /api/topics',
-          'GET /api/articles'
-          // Add more endpoints if needed
-        ];
-
-        const responseEndpoints = Object.keys(response.body);
-
-        expect(responseEndpoints).toEqual(expectedEndpoints);
+        expect(response.body).toEqual(endpointsJSON); // Compare the entire JSON structure
       });
   });
 });
-
