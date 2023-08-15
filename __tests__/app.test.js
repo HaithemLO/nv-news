@@ -1,9 +1,9 @@
 const request = require('supertest');
-const app = require('./app'); 
-const seed = require('./db/seeds/seed');
-const testData = require('./db/data/test-data/index')
-const db = require('./db/connection')
-const endpointsJSON = require ('./endpoints.json')
+const app = require('../app'); 
+const seed = require('../db/seeds/seed');
+const testData = require('../db/data/test-data/index')
+const db = require('../db/connection')
+const endpointsJSON = require ('../endpoints.json')
 
 
 
@@ -69,24 +69,18 @@ describe('GET /api', () => {
       .get('/api')
       .then((response) => {
         expect(response.status).toBe(200);
-        
-        // Get the actual routes defined in app
-        const appRoutes = Object.keys(app._router.stack)
-          .filter(route => route.route)
-          .map(route => route.route.path);
 
-        // Extract endpoints from the expected JSON object
-        const expectedEndpoints = Object.keys(endpointsJSON).map(endpoint => endpoint.split(' ')[1]);
+        const expectedEndpoints = [
+          'GET /api',
+          'GET /api/topics',
+          'GET /api/articles'
+          // Add more endpoints if needed
+        ];
 
-        // Compare the actual routes with expected endpoints
-        const endPoints = expectedEndpoints.filter(endpoint => !appRoutes.includes(endpoint));
+        const responseEndpoints = Object.keys(response.body);
 
-        expect(endPoints).toEqual(["/api", "/api/topics", "/api/articles"]);
+        expect(responseEndpoints).toEqual(expectedEndpoints);
       });
   });
-
- 
-
 });
-
 
