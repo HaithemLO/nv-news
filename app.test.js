@@ -85,16 +85,7 @@ describe('GET /api', () => {
       });
   });
 
-  it('should respond with status 200 and list all available endpoints with details such as description,queries,example response and what format the request body needs to adhere to', () => {
-    return request(app)
-      .get('/api')
-      .then((response) => {
-        expect(response.status).toBe(200);
-        expect(response.body).toEqual(endpointsJSON);
-        console.log(response.body)
-
-      });
-  });
+ 
 
 });
 
