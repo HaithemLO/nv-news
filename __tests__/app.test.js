@@ -84,5 +84,15 @@ describe('GET /api/articles/:article_id/comments', () => {
       });
   });
 
+  it('should respond with status 404 for an invalid article_id', () => {
+    return request(app)
+      .get('/api/articles/9321331/comfments') // Use a non-existing article_id
+      .expect(404);
+  });
 
+  it('should respond with status 400 for an invalid data type in article_id', () => {
+    return request(app)
+      .get('/api/articles/sadsa/comments') // Use an invalid data type for article_id
+      .expect(400);
+  });
 });
