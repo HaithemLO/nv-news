@@ -31,7 +31,7 @@ describe('GET /api/topics', () => {
       .get('/api/topics')
       .expect(200)
       .then((res)=>{
-        expect(res.body.topics.length).not.toBe(0)
+        expect(res.body.topics.length).toBe(3)
         
      
   });
@@ -95,14 +95,17 @@ describe('GET /api/articles/:article_id', () => {
   it('should respond with status 404 for an invalid article_id', () => {
     return request(app)
       .get('/api/articles/999999999999') // Use a non-existing article_id
-      .expect(404);
+      .expect(404)
+      .then((res) => {
+        expect(res.body.message).toBe('Not Found');
+      });
   });
 
 
   it('should respond with status 404 for an invalid data type', () => {
     return request(app)
       .get('/api/articles/banna') 
-      .expect(404);
+      .expect(400);
   });
 
 
