@@ -64,6 +64,8 @@ describe('GET /api/topics', () => {
 
 
 describe('GET /api/articles/:article_id/comments', () => {
+
+    
   it('should respond with an array of comments for the given article_id', () => {
     const article_id = 1; // Use a valid article_id
     return request(app)
@@ -73,6 +75,7 @@ describe('GET /api/articles/:article_id/comments', () => {
         const comments = res.body.comments;
         expect(Array.isArray(comments)).toBe(true);
         expect(comments.length).toBeGreaterThan(0);
+        expect(comments.length).toBe(11);
         comments.forEach((comment) => {
           expect(comment).toHaveProperty('comment_id');
           expect(comment).toHaveProperty('votes');
