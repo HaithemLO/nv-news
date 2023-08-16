@@ -1,5 +1,6 @@
-const  {readTopics,readApis,readArticleById}  = require('../models/model')
+const  {readTopics,readApis,readArticleById,readArticles}  = require('../models/model')
 const endpointsJSON = require('../endpoints.json');
+
 
 
 const getTopics = (req,res,next) => {
@@ -28,4 +29,13 @@ const getApis = (req, res) => {
       .catch(next);
   };
 
-module.exports = {getTopics,getApis,getArticleById}
+
+const getArticles = (req, res, next) => {
+  readArticles()
+    .then((articles) => {
+      res.status(200).json({ articles });
+    })
+    .catch(next);
+};
+
+module.exports = {getTopics,getApis,getArticles,getArticleById}

@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
-const {getTopics,getApis,getArticleById} = require('./controller/controller')
+const {getTopics,getApis,getArticleById,getArticles} = require('./controller/controller')
 const endpointsJSON = require('./endpoints.json');
+
 
 
 
@@ -27,4 +28,8 @@ app.use((err, req, res, next) => {
       res.status(404).json({ message: 'Not Found' });
     }
   });
+
+
+
+app.get('/api/articles', getArticles);
 module.exports = app;
