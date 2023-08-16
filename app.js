@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const getTopics = require('./controller/controller')
+const {getTopics,getCommentsByArticleId} = require('./controller/controller')
 
 
 
@@ -10,6 +10,7 @@ const getTopics = require('./controller/controller')
 app.get('/api/topics',getTopics);
 
 
+app.get('/api/articles/:article_id/comments', getCommentsByArticleId);
 
 app.use((err,req,res,next) => {
 

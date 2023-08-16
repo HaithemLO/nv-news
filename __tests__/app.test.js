@@ -1,8 +1,8 @@
 const request = require('supertest');
-const app = require('./app'); 
-const seed = require('./db/seeds/seed');
-const testData = require('./db/data/test-data/index')
-const db = require('./db/connection')
+const app = require('../app'); 
+const seed = require('../db/seeds/seed');
+const testData = require('../db/data/test-data/index')
+const db = require('../db/connection')
 
 
 
@@ -63,3 +63,26 @@ describe('GET /api/topics', () => {
 });
 
 
+describe('GET /api/articles/:article_id/comments', () => {
+  it('should respond with an array of comments for the given article_id', () => {
+    const article_id = 1; // Use a valid article_id
+    return request(app)
+      .get(`/api/articles/${article_id}/comments`)
+      .expect(200)
+      .then((res) => {
+        const comments = res.body.comments;
+        expect(Array.isArray(comments)).toBe(true);
+        expect(comments.length).toBeGreaterThan(0);
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty('comment_id');
+          expect(comment).toHaveProperty('votes');
+          expect(comment).toHaveProperty('created_at');
+          expect(comment).toHaveProperty('author');
+          expect(comment).toHaveProperty('body');
+          expect(comment).toHaveProperty('article_id', article_id);
+        });
+      });
+  });
+
+
+});
