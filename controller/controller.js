@@ -13,19 +13,10 @@ const getTopics = (req,res,next) => {
 }
 
 const getApis = (req, res) => {
-    const documentation = {};
+   
 
-  // Iterate over each endpoint in the JSON and create documentation
-  for (const endpoint in endpointsJSON) {
-    documentation[endpoint] = {
-      description: endpointsJSON[endpoint].description,
-      queries: endpointsJSON[endpoint].queries || [],
-      format: "needs to be an array of objects",
-      exampleResponse: endpointsJSON[endpoint].exampleResponse || {},
-    };
-  }
 
-  res.status(200).json(documentation);
+  res.status(200).json(endpointsJSON);
   };
 
 
