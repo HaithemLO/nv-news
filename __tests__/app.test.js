@@ -1,9 +1,9 @@
 const request = require('supertest');
-const app = require('./app'); 
-const seed = require('./db/seeds/seed');
-const testData = require('./db/data/test-data/index')
-const db = require('./db/connection')
-const endpointsJSON = require ('./endpoints.json')
+const app = require('../app'); 
+const seed = require('../db/seeds/seed');
+const testData = require('../db/data/test-data/index')
+const db = require('../db/connection')
+const endpointsJSON = require ('../endpoints.json')
 
 
 
@@ -92,7 +92,19 @@ describe('GET /api', () => {
 
 describe('GET /api/articles/:article_id', () => {
  
-  
+  it('should respond with status 404 for an invalid article_id', () => {
+    return request(app)
+      .get('/api/articles/999999999999') // Use a non-existing article_id
+      .expect(404);
+  });
+
+
+  it('should respond with status 404 for an invalid data type', () => {
+    return request(app)
+      .get('/api/articles/banna') 
+      .expect(404);
+  });
+
 
   it('should respond with an article object', () => {
     const article_id = 1; // Use a valid article_id

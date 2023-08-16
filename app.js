@@ -15,9 +15,14 @@ app.get('/api', getApis)
 
 app.get('/api/articles/:article_id',getArticleById)
 
-app.use((err,req,res,next) => {
-
+app.use((err, req, res, next) => {
+    console.error(err); // Log the error for debugging purposes
   
-
-})
+    // Handle different types of errors
+    if (err.status) {
+      res.status(err.status).json({ message: err.msg });
+    } else {
+      res.status(404).json({ message: 'Not Found' });
+    }
+  });
 module.exports = app;
