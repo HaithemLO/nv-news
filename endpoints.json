@@ -25,5 +25,12 @@
         }
       ]
     }
-  }
+  },
+  "GET /api/:article_id/comments": {
+    "description": "get all comments for an article",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [{ "slug": "football", "description": "Footie!" }]
+    }
+  
 }
