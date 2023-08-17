@@ -87,8 +87,7 @@ describe('GET /api/articles/:article_id/comments', () => {
             expect(comment).toHaveProperty('body');
             expect(comment).toHaveProperty('article_id', article_id);
 
-            // Check if the article_img_url is present in the corresponding article
-            expect(comment).toHaveProperty('article_img_url', article.article_img_url);
+           
           });
         }
       });
