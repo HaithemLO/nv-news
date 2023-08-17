@@ -1,4 +1,4 @@
-const  {readTopics,readApis,readArticleById,readArticles}  = require('../models/model')
+const  {readTopics,readApis,readArticleById,readArticles,updateArticleVotes}  = require('../models/model')
 const endpointsJSON = require('../endpoints.json');
 
 
@@ -38,4 +38,23 @@ const getArticles = (req, res, next) => {
     .catch(next);
 };
 
-module.exports = {getTopics,getApis,getArticles,getArticleById}
+const patchArticleVotes = (req, res, next) => {
+  const { article_id } = req.params;
+  const { inc_votes } = req.body;
+
+  if (inc_votes === undefined) {
+    return next({ status: 400, msg: 'Bad Request: Missing inc_votes in request body' });
+  }
+
+  if (typeof inc_votes !== 'number') {
+    return next({ status: 400, msg: 'Bad Request: Invalid data type for inc_votes' });
+  }
+
+  updateArticleVotes(article_id, inc_votes)
+    .then((article) => {
+      res.status(200).json({ article });
+    })
+    .catch(next);
+};
+
+module.exports = {getTopics,getApis,getArticles,getArticleById,patchArticleVotes}
