@@ -7,6 +7,7 @@ const endpointsJSON = require ('../endpoints.json')
 
 
 
+
 beforeEach(() => {
 return seed(testData)
 
@@ -206,5 +207,24 @@ describe('GET /api/articles', () => {
   // Add more tests for error scenarios
 });
 
+
+
+describe('POST /api/articles/:article_id/comments', () => {
+  it('should respond with status 404 for an invalid article_id', () => {
+    return request(app)
+      .get('/api/articles/999999999999') // Use a non-existing article_id
+      .expect(404)
+      .then((res) => {
+        expect(res.body.message).toBe('Not Found');
+      });
+  });
+
+  it('should respond with status 404 for an invalid data type', () => {
+    return request(app)
+      .get('/api/articles/banna') 
+      .expect(400);
+  });
+  
+});
 
 

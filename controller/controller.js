@@ -1,4 +1,4 @@
-const  {readTopics,readApis,readArticleById,readArticles}  = require('../models/model')
+const  {readTopics,readApis,readArticleById,readArticles,createComment }  = require('../models/model')
 const endpointsJSON = require('../endpoints.json');
 
 
@@ -38,4 +38,15 @@ const getArticles = (req, res, next) => {
     .catch(next);
 };
 
-module.exports = {getTopics,getApis,getArticles,getArticleById}
+const postComment = (req, res, next) => {
+  const { article_id } = req.params;
+  const { username, body } = req.body;
+
+  createComment(article_id, username, body)
+    .then((comment) => {
+      res.status(201).json({ comment });
+    })
+    .catch(next);
+};
+
+module.exports = {getTopics,getApis,getArticles,getArticleById,postComment}
