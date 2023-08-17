@@ -14,15 +14,22 @@ const getTopics = (req,res,next) => {
 const getCommentsByArticleId = (req, res, next) => {
   const { article_id } = req.params;
 
-  if (isNaN(article_id)) {
-    return res.status(400).send({ message: 'Invalid article_id data type' });
-  }
+ 
 
   readCommentsByArticleId(article_id)
     .then((comments) => {
       res.status(200).send({ comments });
     })
-    .catch(next);
+    .catch((err) => {
+      if (err.code === '22P02') {
+        // Handling PostgreSQL invalid input syntax for integer error
+        res.status(400).json({ message: 'Invalid article_id data type' });
+      } else if (err.status === 404) {
+        res.status(404).json({ message: err.msg });
+      } else {
+        res.status(500).json({ message: 'Internal Server Error' });
+      }
+    });
 };
 
 module.exports = {getTopics,getCommentsByArticleId}

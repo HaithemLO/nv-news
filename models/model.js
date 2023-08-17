@@ -16,7 +16,8 @@ const readCommentsByArticleId = (article_id) => {
         return Promise.reject({ status: 404, msg: 'No comments found for this article' });
       }
       return rows;
-    });
+    })
+    
 };
 
 module.exports = {readTopics,readCommentsByArticleId}

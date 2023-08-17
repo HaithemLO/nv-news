@@ -75,7 +75,7 @@ describe('GET /api/articles/:article_id/comments', () => {
       .then((res) => {
         const comments = res.body.comments;
         expect(Array.isArray(comments)).toBe(true);
-        expect(comments.length).toBeGreaterThan(0);
+        expect(comments.length).toBe(11);
 
         const article = articles.find((article) => article.article_id === article_id);
         if (article) {
@@ -109,6 +109,25 @@ describe('GET /api/articles/:article_id/comments', () => {
       .expect(400)
       .then((res) => {
         expect(res.body.message).toBe('Invalid article_id data type');
+      });
+  });
+
+  it('should respond with comments served with the most recent comments first', () => {
+    const article_id = 1; // Use a valid article_id
+    return request(app)
+      .get(`/api/articles/${article_id}/comments`)
+      .expect(200)
+      .then((res) => {
+        const comments = res.body.comments;
+
+        // Check if comments are served with the most recent first
+        for (let i = 0; i < comments.length - 1; i++) {
+          const currentComment = comments[i];
+          const nextComment = comments[i + 1];
+          const currentTimestamp = Date.parse(currentComment.created_at);
+          const nextTimestamp = Date.parse(nextComment.created_at);
+          expect(currentTimestamp).toBeGreaterThanOrEqual(nextTimestamp);
+        }
       });
   });
 
