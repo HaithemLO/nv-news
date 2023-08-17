@@ -44,7 +44,7 @@ const postComment = (req, res, next) => {
 
   createComment(article_id, username, body)
     .then((comment) => {
-      res.status(201).json({ comment });
+      res.status(201).send({ comment });
     })
     .catch(next);
 };

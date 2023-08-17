@@ -211,7 +211,7 @@ describe('GET /api/articles', () => {
 
 // describe('POST /api/articles/:article_id/comments', () => {
 //   it('should respond with the posted comment', () => {
-//     const article_id = 1; // Use a valid article_id
+//     const article_id = 9; // Use a valid article_id
 //     const newComment = {
 //       username: 'user123',
 //       body: 'This is a new comment',
@@ -223,7 +223,6 @@ describe('GET /api/articles', () => {
 //       .expect(201)
 //       .then((res) => {
 //         const comment = res.body.comment;
-//         expect(comment).toBeTruthy();
 //         expect(comment).toHaveProperty('comment_id');
 //         expect(comment).toHaveProperty('author', newComment.username);
 //         expect(comment).toHaveProperty('body', newComment.body);
