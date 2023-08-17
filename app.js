@@ -5,7 +5,7 @@ const endpointsJSON = require('./endpoints.json');
 
 
 
-
+app.use(express.json())
 
 
 // GET /api/topics

@@ -39,6 +39,7 @@ const getArticles = (req, res, next) => {
 };
 
 const postComment = (req, res, next) => {
+  
   const { article_id } = req.params;
   const { username, body } = req.body;
 
@@ -46,7 +47,7 @@ const postComment = (req, res, next) => {
     .then((comment) => {
       res.status(201).send({ comment });
     })
-    .catch(next);
+    .catch(next)
 };
 
 module.exports = {getTopics,getApis,getArticles,getArticleById,postComment}

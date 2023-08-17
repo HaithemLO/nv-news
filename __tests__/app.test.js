@@ -209,29 +209,39 @@ describe('GET /api/articles', () => {
 
 
 
-// describe('POST /api/articles/:article_id/comments', () => {
+describe('POST /api/articles/:article_id/comments', () => {
+  it('should respond with the posted comment', () => {
+    const article_id = 1; // Use a valid article_id
+    const newComment = {
+      username: 'butter_bridge',
+      body: 'This is a new comment',
+    };
 
-  
-//   it('should respond with the posted comment', () => {
-//     const article_id = 1; // Use a valid article_id
-//     const newComment = {
-//       username: 'user123',
-//       body: 'This is a new comment',
-//     };
+    return request(app)
+      .post(`/api/articles/${article_id}/comments`)
+      .send(newComment)
+      .expect(201)
+      .then((res) => {
+        const comment = res.body.comment;
+        expect(comment).toBeTruthy();
+        expect(comment).toHaveProperty('comment_id');
+        expect(comment).toHaveProperty('author', newComment.username);
+        expect(comment).toHaveProperty('body', newComment.body);
+        expect(comment).toHaveProperty('article_id', article_id);
+        expect(comment).toHaveProperty('created_at');
+        expect(comment).toHaveProperty('votes', 0);
+      });
+  });
 
-//     return request(app)
-//       .post(`/api/articles/1/comments`)
-//       .send(newComment)
-//       .expect(201)
-//       .then((res) => {
-//         const comment = res.body.comment;
-//         expect(comment).toHaveProperty('comment_id');
-//         expect(comment).toHaveProperty('author', newComment.username);
-//         expect(comment).toHaveProperty('body', newComment.body);
-//         expect(comment).toHaveProperty('article_id', article_id);
-//         expect(comment).toHaveProperty('created_at');
-//         expect(comment).toHaveProperty('votes', 0);
-//       });
-//   });
-// });
+  it('should respond with status 404 for an invalid article_id', () => {
+    return request(app)
+      .post('/api/articles/9321331/comments') // Use a non-existing article_id
+      .expect(404);
+  });
 
+  it('should respond with status 400 for an invalid data type in article_id', () => {
+    return request(app)
+      .post('/api/articles/sadsa/comments') // Use an invalid data type for article_id
+      .expect(400);
+  });
+});
