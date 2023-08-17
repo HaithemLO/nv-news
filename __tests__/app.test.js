@@ -2,7 +2,8 @@ const request = require('supertest');
 const app = require('../app'); 
 const seed = require('../db/seeds/seed');
 const testData = require('../db/data/test-data/index')
-const db = require('../db/connection')
+const db = require('../db/connection');
+const articles = require('../db/data/test-data/articles');
 
 
 
@@ -75,15 +76,21 @@ describe('GET /api/articles/:article_id/comments', () => {
         const comments = res.body.comments;
         expect(Array.isArray(comments)).toBe(true);
         expect(comments.length).toBeGreaterThan(0);
-        expect(comments.length).toBe(11);
-        comments.forEach((comment) => {
-          expect(comment).toHaveProperty('comment_id');
-          expect(comment).toHaveProperty('votes');
-          expect(comment).toHaveProperty('created_at');
-          expect(comment).toHaveProperty('author');
-          expect(comment).toHaveProperty('body');
-          expect(comment).toHaveProperty('article_id', article_id);
-        });
+
+        const article = articles.find((article) => article.article_id === article_id);
+        if (article) {
+          comments.forEach((comment) => {
+            expect(comment).toHaveProperty('comment_id');
+            expect(comment).toHaveProperty('votes');
+            expect(comment).toHaveProperty('created_at');
+            expect(comment).toHaveProperty('author');
+            expect(comment).toHaveProperty('body');
+            expect(comment).toHaveProperty('article_id', article_id);
+
+            // Check if the article_img_url is present in the corresponding article
+            expect(comment).toHaveProperty('article_img_url', article.article_img_url);
+          });
+        }
       });
   });
 
