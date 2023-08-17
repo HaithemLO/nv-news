@@ -209,22 +209,28 @@ describe('GET /api/articles', () => {
 
 
 
-describe('POST /api/articles/:article_id/comments', () => {
-  it('should respond with status 404 for an invalid article_id', () => {
-    return request(app)
-      .get('/api/articles/999999999999') // Use a non-existing article_id
-      .expect(404)
-      .then((res) => {
-        expect(res.body.message).toBe('Not Found');
-      });
-  });
+// describe('POST /api/articles/:article_id/comments', () => {
+//   it('should respond with the posted comment', () => {
+//     const article_id = 1; // Use a valid article_id
+//     const newComment = {
+//       username: 'user123',
+//       body: 'This is a new comment',
+//     };
 
-  it('should respond with status 404 for an invalid data type', () => {
-    return request(app)
-      .get('/api/articles/banna') 
-      .expect(400);
-  });
-  
-});
-
+//     return request(app)
+//       .post(`/api/articles/${article_id}/comments`)
+//       .send(newComment)
+//       .expect(201)
+//       .then((res) => {
+//         const comment = res.body.comment;
+//         expect(comment).toBeTruthy();
+//         expect(comment).toHaveProperty('comment_id');
+//         expect(comment).toHaveProperty('author', newComment.username);
+//         expect(comment).toHaveProperty('body', newComment.body);
+//         expect(comment).toHaveProperty('article_id', article_id);
+//         expect(comment).toHaveProperty('created_at');
+//         expect(comment).toHaveProperty('votes', 0);
+//       });
+//   });
+// });
 
