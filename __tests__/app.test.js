@@ -210,6 +210,8 @@ describe('GET /api/articles', () => {
 
 
 // describe('POST /api/articles/:article_id/comments', () => {
+
+  
 //   it('should respond with the posted comment', () => {
 //     const article_id = 1; // Use a valid article_id
 //     const newComment = {
@@ -218,7 +220,7 @@ describe('GET /api/articles', () => {
 //     };
 
 //     return request(app)
-//       .post(`/api/articles/${article_id}/comments`)
+//       .post(`/api/articles/1/comments`)
 //       .send(newComment)
 //       .expect(201)
 //       .then((res) => {
