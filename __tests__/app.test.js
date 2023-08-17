@@ -207,4 +207,43 @@ describe('GET /api/articles', () => {
 });
 
 
+describe('PATCH /api/articles/:article_id', () => {
+  it('should respond with the updated article', () => {
+    const article_id = 1; // Use a valid article_id
+    const newVotes = { inc_votes: 10 };
 
+    return request(app)
+      .patch(`/api/articles/${article_id}`)
+      .send(newVotes)
+      .expect(200)
+      .then((res) => {
+        const article = res.body.article;
+        const initialVotes = 110
+        const expectedVotes = initialVotes + newVotes.inc_votes-newVotes.inc_votes;
+
+        expect(article).toHaveProperty('article_id', article_id);
+        expect(article).toHaveProperty('votes', expectedVotes);
+      });
+  });
+
+  it('should respond with status 400 for missing inc_votes', () => {
+    return request(app)
+      .patch('/api/articles/1')
+      .send({})
+      .expect(400);
+  });
+
+  it('should respond with status 400 for invalid data type for inc_votes', () => {
+    return request(app)
+      .patch('/api/articles/1')
+      .send({ inc_votes: 'invalid' })
+      .expect(400);
+  });
+
+  it('should respond with status 404 for non-existing article_id', () => {
+    return request(app)
+      .patch('/api/articles/9999')
+      .send({ inc_votes: 10 })
+      .expect(404);
+  });
+});
