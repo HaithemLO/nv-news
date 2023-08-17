@@ -16,7 +16,7 @@ app.get('/api', getApis)
 
 app.get('/api/articles/:article_id',getArticleById)
 
-app.post('/api/articles/:article_id/comments', postComment);
+
 
 app.use((err, req, res, next) => {
     console.error(err); // Log the error for debugging purposes
@@ -34,4 +34,6 @@ app.use((err, req, res, next) => {
 
 
 app.get('/api/articles', getArticles);
+
+app.post('/api/articles/:article_id/comments', postComment);
 module.exports = app;

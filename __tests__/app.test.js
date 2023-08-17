@@ -211,7 +211,7 @@ describe('GET /api/articles', () => {
 
 // describe('POST /api/articles/:article_id/comments', () => {
 //   it('should respond with the posted comment', () => {
-//     const article_id = 9; // Use a valid article_id
+//     const article_id = 1; // Use a valid article_id
 //     const newComment = {
 //       username: 'user123',
 //       body: 'This is a new comment',
