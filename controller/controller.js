@@ -1,4 +1,4 @@
-const  {readTopics,readApis,readArticleById,readArticles,createComment }  = require('../models/model')
+const  {readTopics,readArticleById,readArticles,createComment }  = require('../models/model')
 const endpointsJSON = require('../endpoints.json');
 
 

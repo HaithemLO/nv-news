@@ -1,5 +1,6 @@
 const db = require('../db/connection');
-const endpointsJSON = require('../');
+const endpointsJSON = require('../endpoints.json');
+
 
 const readTopics = () => {
     return db.query(`SELECT * FROM topics;`).then(({
@@ -42,6 +43,7 @@ const readArticles = () => {
     });
 };
 
+
 const createComment = (article_id, username, body) => {
   return db.query(
     `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`,
@@ -51,5 +53,4 @@ const createComment = (article_id, username, body) => {
       return rows[0];
     });
 };
-
 module.exports = {readTopics,readArticles,readArticleById,createComment}

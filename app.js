@@ -9,13 +9,15 @@ const endpointsJSON = require('./endpoints.json');
 
 
 // GET /api/topics
+
 app.get('/api/topics',getTopics);
 
-
+app.get('/api/articles', getArticles);
 app.get('/api', getApis)
 
 app.get('/api/articles/:article_id',getArticleById)
 
+app.post('/api/articles/:article_id/comments', postComment);
 
 
 app.use((err, req, res, next) => {
@@ -33,7 +35,6 @@ app.use((err, req, res, next) => {
 
 
 
-app.get('/api/articles', getArticles);
 
-app.post('/api/articles/:article_id/comments', postComment);
+
 module.exports = app;
