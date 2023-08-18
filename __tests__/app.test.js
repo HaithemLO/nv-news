@@ -229,6 +229,8 @@ describe('POST /api/articles/:article_id/comments', () => {
         expect(comment).toHaveProperty('author', newComment.username);
         expect(comment).toHaveProperty('body', newComment.body);
         expect(comment).toHaveProperty('article_id', article_id);
+
+        expect(comment).not.toHaveProperty('extraProperty');
       });
   });
 
@@ -249,4 +251,17 @@ describe('POST /api/articles/:article_id/comments', () => {
         expect(res.body.message).toBe('Invalid article_id data type');
       });
   });
+
+  // it('should respond with status 400 for a bad request with missing properties', () => {
+  //   const article_id = 1; // Use a valid article_id
+  //   const invalidComment = {}; // Missing username and body properties
+  
+  //   return request(app)
+  //     .post(`/api/articles/${article_id}/comments`)
+  //     .send(invalidComment)
+  //     .expect(400)
+  //     .then((res) => {
+  //       expect(res.body.message).toBe('Bad Request');
+  //     });
+  // });
 });
