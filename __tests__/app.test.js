@@ -230,20 +230,29 @@ describe('PATCH /api/articles/:article_id', () => {
     return request(app)
       .patch('/api/articles/1')
       .send({})
-      .expect(400);
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe('Bad Request: Missing inc_votes in request body');
+      });
   });
 
   it('should respond with status 400 for invalid data type for inc_votes', () => {
     return request(app)
       .patch('/api/articles/1')
       .send({ inc_votes: 'invalid' })
-      .expect(400);
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe('Bad Request: Invalid data type for inc_votes');
+      });
   });
 
   it('should respond with status 404 for non-existing article_id', () => {
     return request(app)
       .patch('/api/articles/9999')
       .send({ inc_votes: 10 })
-      .expect(404);
+      .expect(404)
+      .then((res) => {
+        expect(res.body.message).toBe('Article not found');
+      });
   });
 });

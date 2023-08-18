@@ -52,7 +52,7 @@ const patchArticleVotes = (req, res, next) => {
 
   updateArticleVotes(article_id, inc_votes)
     .then((article) => {
-      res.status(200).json({ article });
+      res.status(200).send({ article });
     })
     .catch(next);
 };
