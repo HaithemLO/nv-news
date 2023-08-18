@@ -124,7 +124,22 @@ describe('GET /api/articles/:article_id/comments', () => {
       });
   });
 
+  it('should respond with an empty array when article exists but has no comments', () => {
+    const article_id = 2; // Use a valid article_id for an article with no comments
+    return request(app)
+      .get(`/api/articles/${article_id}/comments`)
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body.comments)).toBe(true);
+        expect(res.body.comments.length).toBe(0);
+      });
+  });
 
+  
+  
+  
+  
+  
 
   it('should respond with status 400 for an invalid data type in article_id', () => {
     return request(app)
