@@ -132,6 +132,7 @@ describe('GET /api/articles/:article_id/comments', () => {
       .then((res) => {
         expect(Array.isArray(res.body.comments)).toBe(true);
         expect(res.body.comments.length).toBe(0);
+        
       });
   });
 
