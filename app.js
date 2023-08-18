@@ -22,7 +22,7 @@ app.get('/api/articles/:article_id/comments', getCommentsByArticleId);
 
 
 app.use((err, req, res, next) => {
-    console.error(err); // Log the error for debugging purposes
+    // console.error(err); // Log the error for debugging purposes
     if (err.code === '22P02') {
       res.status(400).json({ message: 'Invalid article_id data type' });
     }
