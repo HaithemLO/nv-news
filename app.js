@@ -21,17 +21,19 @@ app.post('/api/articles/:article_id/comments', postComment);
 
 
 app.use((err, req, res, next) => {
-    console.error(err); // Log the error for debugging purposes
-  
-    // Handle different types of errors
-    if (err.status) {
-      res.status(err.status).send({ message: err.msg });
-    }  else if (err.message === 'Invalid data type') {
-        res.status(400).send({ message: 'Invalid data type for article_id' });
-      }else {
-      res.status(404).send({ message: 'Article not found' });
-    }
-  });
+  console.error(err); // Log the error for debugging purposes
+
+  // Handle different types of errors
+  if (err.status) {
+    res.status(err.status).send({ message: err.msg });
+  } else if (err.message === 'Invalid data type') {
+    res.status(400).send({ message: 'Invalid data type for article_id' });
+  } else if (err.message === 'Missing properties') {
+    res.status(400).send({ message: 'Bad Request: Missing properties' });
+  } else {
+    res.status(404).send({ message: 'Article not found' });
+  }
+});
 
 
 

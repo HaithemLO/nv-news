@@ -43,12 +43,15 @@ const readArticles = () => {
     });
 };
 
-
 const createComment = (article_id, username, body) => {
   if (!Number.isInteger(Number(article_id))) {
     return Promise.reject({ status: 400, msg: 'Invalid article_id data type' });
   }
-  
+
+  if (!username || !body) {
+    return Promise.reject({ status: 400, msg: 'Bad Request: Missing properties' });
+  }
+
   return db.query(
     `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`,
     [article_id, username, body]

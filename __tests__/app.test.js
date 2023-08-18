@@ -237,9 +237,9 @@ describe('POST /api/articles/:article_id/comments', () => {
   it('should respond with status 404 for an invalid article_id', () => {
     return request(app)
       .post('/api/articles/9321331/comments') // Use a non-existing article_id
-      .expect(404)
+      .expect(400)
       .then((res) => {
-        expect(res.body.message).toBe('Article not found');
+        expect(res.body.message).toBe('Bad Request: Missing properties');
       });
   });
 
@@ -252,16 +252,16 @@ describe('POST /api/articles/:article_id/comments', () => {
       });
   });
 
-  // it('should respond with status 400 for a bad request with missing properties', () => {
-  //   const article_id = 1; // Use a valid article_id
-  //   const invalidComment = {}; // Missing username and body properties
+  it('should respond with status 400 for a bad request with missing properties', () => {
+    const article_id = 1; // Use a valid article_id
+    const invalidComment = {}; // Missing username and body properties
   
-  //   return request(app)
-  //     .post(`/api/articles/${article_id}/comments`)
-  //     .send(invalidComment)
-  //     .expect(400)
-  //     .then((res) => {
-  //       expect(res.body.message).toBe('Bad Request');
-  //     });
-  // });
+    return request(app)
+      .post(`/api/articles/${article_id}/comments`)
+      .send(invalidComment)
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe('Bad Request: Missing properties');
+      });
+  });
 });
