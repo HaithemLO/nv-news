@@ -46,7 +46,7 @@ const readArticles = () => {
 
 const createComment = (article_id, username, body) => {
   if (!Number.isInteger(Number(article_id))) {
-    return Promise.reject({ status: 400, msg: 'Invalid data type for article_id' });
+    return Promise.reject({ status: 400, msg: 'Invalid article_id data type' });
   }
   
   return db.query(

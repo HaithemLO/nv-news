@@ -99,7 +99,7 @@ describe('GET /api/articles/:article_id', () => {
       .get('/api/articles/999999999999') // Use a non-existing article_id
       .expect(404)
       .then((res) => {
-        expect(res.body.message).toBe('Not Found');
+        expect(res.body.message).toBe('Article not found');
       });
   });
 
@@ -214,7 +214,7 @@ describe('POST /api/articles/:article_id/comments', () => {
     const article_id = 1; // Use a valid article_id
     const newComment = {
       username: 'butter_bridge',
-      body: 'This is a new comment',
+      body: 'This is a test comment',
     };
 
     return request(app)
@@ -223,25 +223,30 @@ describe('POST /api/articles/:article_id/comments', () => {
       .expect(201)
       .then((res) => {
         const comment = res.body.comment;
-        expect(comment).toBeTruthy();
         expect(comment).toHaveProperty('comment_id');
+        expect(comment).toHaveProperty('votes', 0);
+        expect(comment).toHaveProperty('created_at');
         expect(comment).toHaveProperty('author', newComment.username);
         expect(comment).toHaveProperty('body', newComment.body);
         expect(comment).toHaveProperty('article_id', article_id);
-        expect(comment).toHaveProperty('created_at');
-        expect(comment).toHaveProperty('votes', 0);
       });
   });
 
   it('should respond with status 404 for an invalid article_id', () => {
     return request(app)
       .post('/api/articles/9321331/comments') // Use a non-existing article_id
-      .expect(404);
+      .expect(404)
+      .then((res) => {
+        expect(res.body.message).toBe('Article not found');
+      });
   });
 
   it('should respond with status 400 for an invalid data type in article_id', () => {
     return request(app)
       .post('/api/articles/sadsa/comments') // Use an invalid data type for article_id
-      .expect(400);
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe('Invalid article_id data type');
+      });
   });
 });

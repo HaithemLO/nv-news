@@ -29,7 +29,7 @@ app.use((err, req, res, next) => {
     }  else if (err.message === 'Invalid data type') {
         res.status(400).json({ message: 'Invalid data type for article_id' });
       }else {
-      res.status(404).json({ message: 'Not Found' });
+      res.status(404).json({ message: 'Article not found' });
     }
   });
 
