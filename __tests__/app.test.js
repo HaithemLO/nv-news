@@ -47,7 +47,7 @@ describe('GET /api/topics', () => {
 
       .expect(200)
       .then((res)=>{
-        console.log(res.body.topics)
+        
          res.body.topics.forEach((topics) =>{
           expect(typeof topics.slug).toBe('string'),
           expect(typeof topics.description).toBe('string')
@@ -77,8 +77,8 @@ describe('GET /api/articles/:article_id/comments', () => {
         expect(Array.isArray(comments)).toBe(true);
         expect(comments.length).toBe(11);
 
-        const article = articles.find((article) => article.article_id === article_id);
-        if (article) {
+       
+        
           comments.forEach((comment) => {
             expect(comment).toHaveProperty('comment_id');
             expect(comment).toHaveProperty('votes');
@@ -89,7 +89,7 @@ describe('GET /api/articles/:article_id/comments', () => {
 
            
           });
-        }
+        
       });
   });
 
@@ -111,7 +111,6 @@ describe('GET /api/articles/:article_id/comments', () => {
         expect(res.body.message).toBe('Invalid article_id data type');
       });
   });
-
   it('should respond with comments served with the most recent comments first', () => {
     const article_id = 1; // Use a valid article_id
     return request(app)
@@ -120,16 +119,19 @@ describe('GET /api/articles/:article_id/comments', () => {
       .then((res) => {
         const comments = res.body.comments;
 
-        // Check if comments are served with the most recent first
-        for (let i = 0; i < comments.length - 1; i++) {
-          const currentComment = comments[i];
-          const nextComment = comments[i + 1];
-          const currentTimestamp = Date.parse(currentComment.created_at);
-          const nextTimestamp = Date.parse(nextComment.created_at);
-          expect(currentTimestamp).toBeGreaterThanOrEqual(nextTimestamp);
-        }
+        // Check if comments are served with the most recent first using Jest Sorted
+        expect(comments).toBeSortedBy('created_at', { descending: true });
       });
   });
 
 
+
+  it('should respond with status 400 for an invalid data type in article_id', () => {
+    return request(app)
+      .get('/api/articles/sadsa/comments') // Use an invalid data type for article_id
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe('Invalid article_id data type');
+      });
+  });
 });
