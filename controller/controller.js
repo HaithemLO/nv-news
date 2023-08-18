@@ -1,4 +1,4 @@
-const  {readTopics,readApis,readArticleById,readArticles}  = require('../models/model')
+const  {readTopics,readApis,readArticleById,readArticles,readCommentsByArticleId}  = require('../models/model')
 const endpointsJSON = require('../endpoints.json');
 
 
@@ -38,4 +38,16 @@ const getArticles = (req, res, next) => {
     .catch(next);
 };
 
-module.exports = {getTopics,getApis,getArticles,getArticleById}
+const getCommentsByArticleId = (req, res, next) => {
+  const { article_id } = req.params;
+
+ 
+
+  readCommentsByArticleId(article_id)
+    .then((comments) => {
+      res.status(200).send({ comments });
+    })
+    .catch(next)
+};
+
+module.exports = {getTopics,getApis,getArticles,getArticleById,getCommentsByArticleId}
